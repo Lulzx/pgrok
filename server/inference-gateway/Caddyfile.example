@@ -1,0 +1,25 @@
+# Public inference API and documentation.
+inference.lulzx.space {
+	@inference_api {
+		method GET POST OPTIONS
+		path / /api/token /api/v1/* /assets/*
+	}
+
+	handle @inference_api {
+		reverse_proxy 127.0.0.1:12341 {
+			flush_interval -1
+		}
+	}
+
+	handle {
+		respond "Not found" 404
+	}
+
+	header {
+		Cache-Control "no-store"
+		Referrer-Policy "no-referrer"
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Robots-Tag "noindex, nofollow"
+	}
+}
